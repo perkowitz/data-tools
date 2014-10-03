@@ -87,9 +87,9 @@ public class TopArtists {
 
                     for (Artist artist : artists.values()) {
                         String name = artist.getName();
-                        artistScores.put(name,artist.getScore());
+                        artistScores.put(name,artist.getSummedScore());
 
-                        Double decayedScore = 0.0 + artist.getScore();
+                        Double decayedScore = 0.0 + artist.getSummedScore();
                         if (scoresOverTime.size() > 0) {
                             Integer lastWeekScore = scoresOverTime.get(scoresOverTime.size()-1).get(name);
 
@@ -109,7 +109,7 @@ public class TopArtists {
                         if (scoresOverTime.size() >= 52 && scoresOverTime.get(scoresOverTime.size()-52).get(name) != null) {
                             lastYearScore = scoresOverTime.get(scoresOverTime.size()-52).get(name);
                         }
-                        yearlyScores.put(name,artist.getScore() - lastYearScore);
+                        yearlyScores.put(name,artist.getSummedScore() - lastYearScore);
 
                         Double density = (double)artist.getTotalWeeksInTopTen() / (double)(week - artist.getFirstWeek());
                         if (artistDensityOverCareer.get(name) != null) {

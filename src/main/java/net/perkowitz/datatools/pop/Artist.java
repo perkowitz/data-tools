@@ -102,31 +102,34 @@ public class Artist implements Comparable<Artist> {
     }
 
     public int compareTo(Artist artist) {
-
-        if (compareMethod == COMPARE_TOPTEN_SONGS) {
-            return this.getTotalTopTenSongs().compareTo(artist.getTotalTopTenSongs());
-        } else if (compareMethod == COMPARE_TOPONE_SONGS) {
-            return this.getTotalNumberOneSongs().compareTo(artist.getTotalNumberOneSongs());
-        } else if (compareMethod == COMPARE_TOPTEN_APPEARANCES) {
-            return this.getTotalTopTenAppearances().compareTo(artist.getTotalTopTenAppearances());
-        } else if (compareMethod == COMPARE_TOPONE_APPEARANCES) {
-            return this.getTotalNumberOneAppearances().compareTo(artist.getTotalNumberOneAppearances());
-        } else if (compareMethod == COMPARE_TOPTEN_WEEKS) {
-            return this.getTotalWeeksInTopTen().compareTo(artist.getTotalWeeksInTopTen());
-        } else if (compareMethod == COMPARE_TOPONE_WEEKS) {
-            return this.getTotalWeeksAtNumberOne().compareTo(artist.getTotalWeeksAtNumberOne());
-        }
-
-        return this.getTotalTopTenSongs().compareTo(artist.getTotalTopTenSongs());
+        return this.getComparisonScore().compareTo(artist.getComparisonScore());
     }
 
     public double getHitDensity() {
-
         return Math.round(1000 * (double)getTotalWeeksInTopTen() / (double)getCareerSpanInWeeks()) / (double)1000;
 
     }
 
-    public Integer getScore() {
+    public Integer getComparisonScore() {
+
+        if (compareMethod == COMPARE_TOPTEN_SONGS) {
+            return this.getTotalTopTenSongs();
+        } else if (compareMethod == COMPARE_TOPONE_SONGS) {
+            return this.getTotalNumberOneSongs();
+        } else if (compareMethod == COMPARE_TOPTEN_APPEARANCES) {
+            return this.getTotalTopTenAppearances();
+        } else if (compareMethod == COMPARE_TOPONE_APPEARANCES) {
+            return this.getTotalNumberOneAppearances();
+        } else if (compareMethod == COMPARE_TOPTEN_WEEKS) {
+            return this.getTotalWeeksInTopTen();
+        } else if (compareMethod == COMPARE_TOPONE_WEEKS) {
+            return this.getTotalWeeksAtNumberOne();
+        }
+
+        else return getTotalTopTenAppearances();
+    }
+
+    public Integer getSummedScore() {
         return getTotalNumberOneSongs() + getTotalWeeksAtNumberOne()
                 + getTotalTopTenSongs() + getTotalWeeksInTopTen() + getTotalTopTenAppearances();
     }
