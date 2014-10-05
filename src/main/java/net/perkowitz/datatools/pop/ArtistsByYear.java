@@ -59,9 +59,9 @@ public class ArtistsByYear {
             return;
         }
 
-        Artist.setCompareMethod(Artist.COMPARE_TOPTEN_APPEARANCES);
-        Map<Integer,Map<String,Artist>> artistCountsByYear = Maps.newHashMap();
-        Map<String,Artist> artists = Maps.newHashMap();
+        PopArtist.setCompareMethod(PopArtist.COMPARE_TOPTEN_APPEARANCES);
+        Map<Integer,Map<String,PopArtist>> artistCountsByYear = Maps.newHashMap();
+        Map<String,PopArtist> artists = Maps.newHashMap();
 
         try {
             input = new BufferedReader(new FileReader(new File(songfile)));
@@ -71,7 +71,7 @@ public class ArtistsByYear {
 
                 ChartAppearance chartAppearance = new ChartAppearance(line);
 
-                Map<String,Artist> yearCounts = artistCountsByYear.get(chartAppearance.getYear());
+                Map<String,PopArtist> yearCounts = artistCountsByYear.get(chartAppearance.getYear());
                 if (yearCounts == null) {
                     yearCounts = Maps.newHashMap();
                     artistCountsByYear.put(chartAppearance.getYear(),yearCounts);
@@ -88,16 +88,16 @@ public class ArtistsByYear {
 
                     for (String mappedName : mappedNames) {
 
-                        Artist artist = artists.get(mappedName);
+                        PopArtist artist = artists.get(mappedName);
                         if (artist == null) {
-                            artist = new Artist(mappedName);
+                            artist = new PopArtist(mappedName);
                             artists.put(mappedName,artist);
                         }
                         artist.addChartAppearance(chartAppearance);
 
-                        Artist yearArtist = yearCounts.get(mappedName);
+                        PopArtist yearArtist = yearCounts.get(mappedName);
                         if (yearArtist == null) {
-                            yearArtist = new Artist(mappedName);
+                            yearArtist = new PopArtist(mappedName);
                             yearCounts.put(mappedName,yearArtist);
                         }
                         yearArtist.addChartAppearance(chartAppearance);
@@ -123,13 +123,13 @@ public class ArtistsByYear {
             bufferedWriter = new BufferedWriter(fileWriter);
 
             for (Integer year=1960; year<2014; year++) {
-                Map<String,Artist> yearCounts = artistCountsByYear.get(year);
+                Map<String,PopArtist> yearCounts = artistCountsByYear.get(year);
                 if (yearCounts != null) {
-                    List<Artist> yearArtists = Lists.newArrayList(yearCounts.values());
+                    List<PopArtist> yearArtists = Lists.newArrayList(yearCounts.values());
                     Collections.sort(yearArtists);
                     yearArtists = Lists.reverse(yearArtists);
                     for (int i=0; i<Math.min(10,yearArtists.size()); i++) {
-                        Artist yearArtist = yearArtists.get(i);
+                        PopArtist yearArtist = yearArtists.get(i);
                         bufferedWriter.write(year + "," + (i+1) + "," + yearArtist.getName() + "," + yearArtist.getComparisonScore());
                         bufferedWriter.newLine();
                     }

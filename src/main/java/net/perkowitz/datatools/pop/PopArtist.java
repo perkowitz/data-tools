@@ -1,14 +1,12 @@
 package net.perkowitz.datatools.pop;
 
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.List;
 import java.util.Set;
 
-public class Artist implements Comparable<Artist> {
+public class PopArtist implements Comparable<PopArtist> {
 
     public static final String DELIMITER = ",";
     public static final String SECONDARY_DELIMITER = "|";
@@ -39,10 +37,12 @@ public class Artist implements Comparable<Artist> {
     private Integer totalNumberOneAppearances = 0;
     private Integer firstWeek = null;
     private Integer lastWeek = null;
+    private double totalHotttness = 0d;
+    private int hotttnessCount = 0;
 
     private Integer[] ranks = new Integer[COMPARE_MAX+1];
 
-    public Artist(String name) {
+    public PopArtist(String name) {
         this.name = name;
     }
 
@@ -92,7 +92,7 @@ public class Artist implements Comparable<Artist> {
 
     public boolean isFullyRanked() {
 
-        for (int compareMethod=0; compareMethod<=Artist.COMPARE_MAX; compareMethod++) {
+        for (int compareMethod=0; compareMethod<= PopArtist.COMPARE_MAX; compareMethod++) {
             if (ranks[compareMethod] == null) {
                 return false;
             }
@@ -101,7 +101,12 @@ public class Artist implements Comparable<Artist> {
         return true;
     }
 
-    public int compareTo(Artist artist) {
+    public void addHotttness(double hotttness) {
+        totalHotttness += hotttness;
+        hotttnessCount++;
+    }
+
+    public int compareTo(PopArtist artist) {
         return this.getComparisonScore().compareTo(artist.getComparisonScore());
     }
 
@@ -175,11 +180,18 @@ public class Artist implements Comparable<Artist> {
     }
 
     public static void setCompareMethod(int compareMethod) {
-        Artist.compareMethod = compareMethod;
+        PopArtist.compareMethod = compareMethod;
     }
 
     public Integer[] getRanks() {
         return ranks;
     }
 
+    public double getTotalHotttness() {
+        return totalHotttness;
+    }
+
+    public double getAverageHotttness() {
+        return totalHotttness / hotttnessCount;
+    }
 }

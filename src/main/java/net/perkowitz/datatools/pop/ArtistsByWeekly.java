@@ -29,7 +29,7 @@ public class ArtistsByWeekly {
 
         String songfile = args[0];
 
-        Map<String,Artist> artists = Maps.newHashMap();
+        Map<String,PopArtist> artists = Maps.newHashMap();
 
         BufferedReader input;
         try {
@@ -42,9 +42,9 @@ public class ArtistsByWeekly {
                 String name = chartAppearance.getArtist();
                 List<String> names = ArtistHelper.parseNames(chartAppearance.getArtist(),null);
                 for (String artistName : names) {
-                    Artist artist = artists.get(artistName);
+                    PopArtist artist = artists.get(artistName);
                     if (artist == null) {
-                        artist = new Artist(artistName);
+                        artist = new PopArtist(artistName);
                         artists.put(artistName,artist);
                     }
                     artist.addChartAppearance(chartAppearance);
@@ -61,10 +61,10 @@ public class ArtistsByWeekly {
         }
 
         // compute ranks by various comparison methods
-        List<Artist> artistList = Lists.newArrayList(artists.values());
-        Set<Artist> topArtists = Sets.newHashSet();
-        for (int compareMethod=0; compareMethod<=Artist.COMPARE_MAX; compareMethod++) {
-            Artist.setCompareMethod(compareMethod);
+        List<PopArtist> artistList = Lists.newArrayList(artists.values());
+        Set<PopArtist> topArtists = Sets.newHashSet();
+        for (int compareMethod=0; compareMethod<= PopArtist.COMPARE_MAX; compareMethod++) {
+            PopArtist.setCompareMethod(compareMethod);
             Collections.sort(artistList,Collections.reverseOrder());
             for (int rank=0; rank<maxRankToCompute; rank++) {
                 artistList.get(rank).addRank(compareMethod,rank);
@@ -72,58 +72,28 @@ public class ArtistsByWeekly {
             }
         }
 
-        List<Artist> rankingArtists = Lists.newArrayList(topArtists);
-//        List<Artist> rankingArtists = Lists.newArrayList();
-//        for (Artist artist : topArtists) {
-//            if (artist.isFullyRanked()) {
-//                rankingArtists.add(artist);
-//            }
-//        }
+        List<PopArtist> rankingArtists = Lists.newArrayList(topArtists);
+            String outfile = "top-artists.csv";
+            FileWriter fileWriter = null;
+            BufferedWriter bufferedWriter = null;
+            try {
+                fileWriter = new FileWriter(outfile);
+                bufferedWriter = new BufferedWriter(fileWriter);
 
-        String outfile = "top-artists.csv";
-        FileWriter fileWriter = null;
-        BufferedWriter bufferedWriter = null;
-        try {
-            fileWriter = new FileWriter(outfile);
-            bufferedWriter = new BufferedWriter(fileWriter);
+                for (PopArtist artist : rankingArtists) {
+                    bufferedWriter.write(artist.toString());
+                    bufferedWriter.newLine();
+                }
 
-            for (Artist artist : rankingArtists) {
-                bufferedWriter.write(artist.toString());
-                bufferedWriter.newLine();
+                bufferedWriter.close();
+
+            } catch(IOException e) {
+                System.err.printf("%s\n", e);
             }
-
-            // print out rankings for top artists
-//            for (Artist artist : rankingArtists) {
-//                bufferedWriter.write(artist.getName() + ",");
-//            }
-//            bufferedWriter.newLine();
-//
-//            for (int compareMethod=0; compareMethod<=Artist.COMPARE_MAX; compareMethod++) {
-//                for (Artist artist : rankingArtists) {
-//                    Integer[] ranks = artist.getRanks();
-//                    Integer rank = ranks[compareMethod];
-//                    if (rank == null) {
-//                        rank = 0;
-//                    } else {
-//                        rank = maxRankToCompute - rank;
-//                    }
-//                    String rankString = rank.toString();
-//                    bufferedWriter.write(rankString + ",");
-//                }
-//                bufferedWriter.newLine();
-//            }
-
-            bufferedWriter.close();
-
-        } catch(IOException e) {
-            System.err.printf("%s\n", e);
-        }
 
         List<String> names = Lists.newArrayList(artists.keySet());
         Collections.sort(names);
         outfile = "artists.csv";
-        fileWriter = null;
-        bufferedWriter = null;
         try {
             fileWriter = new FileWriter(outfile);
             bufferedWriter = new BufferedWriter(fileWriter);

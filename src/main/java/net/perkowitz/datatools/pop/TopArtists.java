@@ -63,7 +63,7 @@ public class TopArtists {
         }
 
         // read in the chart data
-        Map<String,Artist> artists = Maps.newHashMap();
+        Map<String,PopArtist> artists = Maps.newHashMap();
         List<Map<String,Integer>> scoresOverTime = Lists.newArrayList();
         List<Map<String,Double>> decayedScoresOverTime = Lists.newArrayList();
         List<Map<String,Integer>> scoresPerYear = Lists.newArrayList();
@@ -85,7 +85,7 @@ public class TopArtists {
                     Map<String,Double> decayedArtistScores = Maps.newHashMap();
                     Map<String,Integer> yearlyScores = Maps.newHashMap();
 
-                    for (Artist artist : artists.values()) {
+                    for (PopArtist artist : artists.values()) {
                         String name = artist.getName();
                         artistScores.put(name,artist.getSummedScore());
 
@@ -139,9 +139,9 @@ public class TopArtists {
                     Set<String> mappedNames = aliasToArtistMap.get(artistName);
                     if (mappedNames != null) {
                         for (String mappedName : mappedNames) {
-                            Artist artist = artists.get(mappedName);
+                            PopArtist artist = artists.get(mappedName);
                             if (artist == null) {
-                                artist = new Artist(mappedName);
+                                artist = new PopArtist(mappedName);
                                 artists.put(mappedName,artist);
                             }
                             artist.addChartAppearance(chartAppearance);

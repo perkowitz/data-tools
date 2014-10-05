@@ -24,14 +24,18 @@ public class ChartAppearance {
 
     public ChartAppearance(String line) {
 
-        String[] fields = StringUtils.split(line,",");
-        week = new Integer(fields[CHART_WEEK_INDEX]);
-        year = new Integer(fields[CHART_YEAR_INDEX]);
-        month = new Integer(fields[CHART_MONTH_INDEX]);
-        day = new Integer(fields[CHART_DAY_INDEX]);
-        rank = new Integer(fields[CHART_RANK_INDEX]);
-        artist = fields[CHART_ARTIST_INDEX];
-        title = fields[CHART_TITLE_INDEX];
+        try {
+            String[] fields = StringUtils.split(line,",");
+            week = new Integer(fields[CHART_WEEK_INDEX]);
+            year = new Integer(fields[CHART_YEAR_INDEX]);
+            month = new Integer(fields[CHART_MONTH_INDEX]);
+            day = new Integer(fields[CHART_DAY_INDEX]);
+            rank = new Integer(fields[CHART_RANK_INDEX]);
+            artist = fields[CHART_ARTIST_INDEX];
+            title = fields[CHART_TITLE_INDEX];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.printf("Array Index Out of Bounds when processing line: %s\n",line);
+        }
 
     }
 
