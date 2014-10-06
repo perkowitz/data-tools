@@ -1,4 +1,4 @@
-package net.perkowitz.datatools;
+package net.perkowitz.datatools.survey;
 
 import com.google.common.collect.Lists;
 

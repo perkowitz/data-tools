@@ -1,18 +1,14 @@
 package net.perkowitz.datatools.pop;
 
 
-import com.echonest.api.v4.Artist;
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
-import com.echonest.api.v4.Song;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;

@@ -2,12 +2,9 @@ package net.perkowitz.datatools.pop;
 
 
 import com.echonest.api.v4.Artist;
-import com.echonest.api.v4.ArtistParams;
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
-import com.echonest.api.v4.Params;
 import com.echonest.api.v4.Song;
-import com.echonest.api.v4.SongParams;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -17,10 +14,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public class ArtistsByNest {
 
@@ -40,7 +35,7 @@ public class ArtistsByNest {
         }
 
         ArtistsByNest artistsByNest = new ArtistsByNest();
-        artistsByNest.run(args[0],args[1],args[2]);
+        artistsByNest.run(args[0], args[1], args[2]);
 
     }
 
@@ -91,7 +86,7 @@ public class ArtistsByNest {
 
                     Artist echoNestArtist = artistMap.get(name);
                     if (echoNestArtist == null) {
-                        echoNestArtist = EchoNestHelper.getArtist(echoNest,name);
+                        echoNestArtist = EchoNestHelper.getArtist(echoNest, name);
                         artistMap.put(name, echoNestArtist);
                     }
 
@@ -101,11 +96,11 @@ public class ArtistsByNest {
                     }
                     Song song = songMap.get(songKey);
                     if (song == null && echoNestArtist != null) {
-                        song = EchoNestHelper.getSong(echoNest,echoNestArtist.getID(),chartAppearance.getTitle());
+                        song = EchoNestHelper.getSong(echoNest, echoNestArtist.getID(), chartAppearance.getTitle());
                         if (song == null) {
-                            Artist songArtist = EchoNestHelper.getArtist(echoNest,chartAppearance.getArtist());
+                            Artist songArtist = EchoNestHelper.getArtist(echoNest, chartAppearance.getArtist());
                             if (songArtist != null) {
-                                song = EchoNestHelper.getSong(echoNest,songArtist.getID(),chartAppearance.getTitle());
+                                song = EchoNestHelper.getSong(echoNest, songArtist.getID(), chartAppearance.getTitle());
                             }
                         }
 
